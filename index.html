@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Supermercado Web</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Estilo adicional para personalizar las tarjetas */
+    .product-card {
+      max-width: 18rem;
+      margin: 10px;
+    }
+    .product-card img {
+      max-height: 150px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="alert alert-danger" role="alert" style="display: none;" id="error-message"></div>
+    <div class="row" id="product-list"></div>
+  </div>
+
+  <!-- Bootstrap JS (debes agregarlo al final del cuerpo del documento) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Tu archivo JS modificado -->
+  <script src="js/main.js"></script>
+</body>
+</html>
