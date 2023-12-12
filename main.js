@@ -2,73 +2,101 @@ document.addEventListener('DOMContentLoaded', function () {
   const productList = document.getElementById('product-list');
   const errorMessage = document.getElementById('error-message');
 
-  // Ruta del archivo CSV en tu repositorio de GitHub
-  const csvFilePath = 'ofertas.csv';
+  // Datos de productos incorporados directamente en el archivo JS
+  const data = [
+    {
+      detalle: 'ASADO COSTILLA OFERTA',
+      precio_actual: 3390.00,
+      precio_anterior: 0.00,
+      vig_hasta: 'MIÉRCOLES 6 DE DICIEMBRE',
+      codigo_interno: 535
+    },
+    {
+      detalle: 'DURAZNOS NAT, 820G, ABETO',
+      precio_actual: 1164.90,
+      precio_anterior: 1533.18,
+      vig_hasta: 'DOMINGO 31 DE DICIEMBRE',
+      codigo_interno: 303
+    },
+    {
+      detalle: 'FALDA',
+      precio_actual: 1990.00,
+      precio_anterior: 3290.00,
+      vig_hasta: 'JUEVES 7 DE DICIEMBRE',
+      codigo_interno: 189
+    },
+    {
+      detalle: 'MAYONESA HEINZ 850G, LIGHT',
+      precio_actual: 1199.00,
+      precio_anterior: 3121.78,
+      vig_hasta: 'DOMINGO 10 DE DICIEMBRE',
+      codigo_interno: 655
+    },
+    {
+      detalle: 'MAYONESA HEINZ 850G, ORIGINAL',
+      precio_actual: 1099.00,
+      precio_anterior: 2830.92,
+      vig_hasta: 'JUEVES 14 DE DICIEMBRE',
+      codigo_interno: 656
+    },
+    {
+      detalle: 'SIDRA LA FARRUCA 710CC, S/ALCOHOL',
+      precio_actual: 869.90,
+      precio_anterior: 1051.16,
+      vig_hasta: 'DOMINGO 31 DE DICIEMBRE',
+      codigo_interno: 20279
+    },
+    {
+      detalle: 'VINO VIÑAS BALBO 1125CC, CLASICO TINTO',
+      precio_actual: 1199.00,
+      precio_anterior: 1398.93,
+      vig_hasta: 'DOMINGO 31 DE DICIEMBRE',
+      codigo_interno: 18295
+    },
+    {
+      detalle: 'YERBA 1KG PLAYADITO',
+      precio_actual: 2169.00,
+      precio_anterior: 2784.57,
+      vig_hasta: 'DOMINGO 31 DE DICIEMBRE',
+      codigo_interno: 126
+    },
+    {
+      detalle: 'YERBA 500G PLAYADITO',
+      precio_actual: 1159.00,
+      precio_anterior: 1488.94,
+      vig_hasta: 'DOMINGO 31 DE DICIEMBRE',
+      codigo_interno: 127
+    },
+    // Puedes agregar más productos según sea necesario
+  ];
 
-  // Hacer una solicitud al servidor para obtener los datos
-  fetch(csvFilePath)
-    .then(response => response.text())
-    .then(csvData => {
-      const data = parseCSV(csvData);
+  // Verificar si hay datos
+  if (data && data.length > 0) {
+    // Construir tarjetas para cada producto
+    data.forEach(product => {
+      // Construir la URL completa de la imagen
+      const imageUrl = `/images/${product.codigo_interno}.png`;
 
-      // Verificar si hay datos
-      if (data && data.length > 0) {
-        // Construir tarjetas para cada producto
-        data.forEach(product => {
-          // Construir la URL completa de la imagen
-          const imageUrl = `/images/${product.codigo_interno}.png`;
-
-          const cardHtml = `
-            <div class="col-md-4">
-              <div class="card product-card">
-                <img src="${imageUrl}" class="card-img-top" alt="imagen de producto">
-                <div class="card-body">
-                  <h5 class="card-title">${product.detalle}</h5>
-                  <p class="card-text">Precio Actual: ${product.precio_actual}</p>
-                  <p class="card-text">Precio Anterior: ${product.precio_anterior}</p>
-                  <p class="card-text">Vigencia Hasta: ${product.vig_hasta}</p>
-                </div>
-              </div>
+      const cardHtml = `
+        <div class="col-md-4">
+          <div class="card product-card">
+            <img src="${imageUrl}" class="card-img-top" alt="imagen de producto">
+            <div class="card-body">
+              <h5 class="card-title">${product.detalle}</h5>
+              <p class="card-text">Precio Actual: ${product.precio_actual}</p>
+              <p class="card-text">Precio Anterior: ${product.precio_anterior}</p>
+              <p class="card-text">Vigencia Hasta: ${product.vig_hasta}</p>
             </div>
-          `;
+          </div>
+        </div>
+      `;
 
-          // Agregar la tarjeta al #product-list
-          productList.innerHTML += cardHtml;
-        });
-      } else {
-        // Mostrar un mensaje si no hay datos
-        errorMessage.innerHTML = 'No hay datos disponibles.';
-        errorMessage.style.display = 'block';
-      }
-    })
-    .catch(error => {
-      // Manejar errores de la solicitud
-      console.error('Error al obtener datos:', error);
-      errorMessage.innerHTML = 'Error al cargar los datos.';
-      errorMessage.style.display = 'block';
+      // Agregar la tarjeta al #product-list
+      productList.innerHTML += cardHtml;
     });
-});
-
-// Función para convertir datos CSV a un arreglo de objetos
-function parseCSV(csv) {
-  const lines = csv.split('\n');
-
-  const result = [];
-  for (let i = 0; i < lines.length; i++) {
-    const currentLine = lines[i].split(';');
-
-    if (currentLine.length === 5) {
-      const obj = {
-        detalle: currentLine[0],
-        precio_actual: parseFloat(currentLine[1]),
-        precio_anterior: parseFloat(currentLine[2]),
-        vig_hasta: currentLine[3],
-        codigo_interno: parseInt(currentLine[4], 10)
-      };
-
-      result.push(obj);
-    }
+  } else {
+    // Mostrar un mensaje si no hay datos
+    errorMessage.innerHTML = 'No hay datos disponibles.';
+    errorMessage.style.display = 'block';
   }
-
-  return result;
-}
+});
